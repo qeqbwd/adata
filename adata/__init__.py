@@ -4,13 +4,12 @@
 @author: 1nchaos
 @time: 2023/4/4
 """
-# -*- coding: utf-8 -*-
 
 import logging
 
 from adata.__version__ import __version__
 from adata.bond import bond
-from adata.common.utils.sunrequests import SunProxy
+from adata.common.utils.sunrequests import SunProxy, sun_requests
 from adata.fund import fund
 from adata.sentiment import sentiment
 from adata.stock import stock
@@ -31,6 +30,18 @@ def proxy(is_proxy=False, ip: str = None, proxy_url: str = None):
     SunProxy.set('ip', ip)
     SunProxy.set('proxy_url', proxy_url)
     return
+
+
+def set_rate_limit(per_minute: int = 30):
+    """
+    设置全局请求频率限制（按域名）
+
+    :param per_minute: 每个域名每分钟允许的请求次数
+    默认 30 次 / 分钟
+
+    设置为 0 表示关闭频率限制
+    """
+    sun_requests.set_rate_limit(per_minute)
 
 
 # set up logging
